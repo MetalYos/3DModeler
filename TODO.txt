@@ -1,0 +1,7 @@
+Critical Features:
+1. Add a menu.
+2. Add top toolbar.
+3. Add a side toolbar.
+4. Add a side panel which will be split into 2 panels:
+    a. Scene Graph.
+    b. Selected object/tool properties.
