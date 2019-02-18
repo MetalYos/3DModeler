@@ -1,6 +1,9 @@
 #pragma once
 
 #include "pch.h"
+#include "DrawPanel.h"
+#include "SceneGraphPanel.h"
+#include "PropertiesPanel.h"
 
 class MainWindow : public wxFrame
 {
@@ -21,14 +24,19 @@ private:
     void createCreateMenu(wxMenuBar* menuBar);
 
     void createTopToolbar();
+    void createLeftViewport();
     void createSideToolbar();
-    void createViewportPanel();
+    void createDrawingPanel();
     void createSceneGraphPanel();
     void createPropertiesPanel();
 
 private:
     wxBoxSizer* m_MainSizer;
     wxBoxSizer* m_LeftVerticalSizer;
-    wxBoxSizer* m_LeftSubHorizontalSizer;
+    wxBoxSizer* m_LeftViewportSizer;
     wxBoxSizer* m_RightVerticalSizer;
+
+    DrawPanel* m_DrawingPanel;
+    SceneGraphPanel* m_SceneGraphPanel;
+    PropertiesPanel* m_PropertiesPanel;
 };
