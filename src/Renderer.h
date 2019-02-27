@@ -4,9 +4,9 @@
 
 struct RendererColor
 {
-    double R, G, B;
+    unsigned char R, G, B;
 
-    RendererColor(double r = 1.0, double g = 1.0, double b = 1.0)
+    RendererColor(unsigned char r = 255, unsigned char g = 255, unsigned char b = 255)
         : R(r), G(g), B(b) {}
 };
 
@@ -48,16 +48,19 @@ public:
     int GetWidth() const;
     int GetHeight() const;
     double GetAspectRation() const;
-    const RendererColor& GetPixel(int x, int y) const;
+    RendererColor GetPixel(int x, int y) const;
+    unsigned char* GetFrameBuffer();
 
     // Setters
     void SetWidth(int width);
     void SetHeight(int height);
-    void SetPixel(int x, int y, const RendererColor& color);
 
     // Draw methods
     void DrawBackground(const RendererColor& color);
     void DrawBackground(const RendererGradientColor& gradient);
+    void DrawPixel(int x, int y, const RendererColor& color);
+    void DrawPixel(int x, int y, const RendererColor& color, int thickness);
+    void DrawLine(const Vec4& p0, const Vec4& p1, const RendererColor& color, int thickness);
 
 private:
     void setAspectRatio();
@@ -70,7 +73,7 @@ private:
     int m_Width;
     int m_Height;
     double m_AspectRatio;
-    RendererColor* m_FrameBuffer;
+    unsigned char* m_FrameBuffer;
     double* m_ZBuffer;
 
     bool isInit;

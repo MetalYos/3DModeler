@@ -24,10 +24,26 @@ void DrawPanel::OnPaint(wxPaintEvent& event)
     wxBufferedPaintDC dc(this);
 
     RendererGradientColor gradient;
-    gradient.AddColor(0.0, { 0.5, 0.5, 0.5 });
-    gradient.AddColor(1.0, { 0.3, 0.3, 0.3 });
+    gradient.AddColor(0.0, { 127, 127, 127 });
+    gradient.AddColor(1.0, { 76, 76, 76 });
 
     m_Renderer.DrawBackground(gradient);
+
+    double angle = 0;
+    int numLines = 20;
+    double radius = 300;
+    RendererColor color(0, 0, 255);
+    while (angle < 360)
+    {
+        Vec4 p1(m_Renderer.GetWidth() / 2, m_Renderer.GetHeight() / 2, 0, 0);
+        Vec4 p2(m_Renderer.GetWidth() / 2 + radius * cos(ToRadians(angle)), 
+                       m_Renderer.GetHeight() / 2 + radius * sin(ToRadians(angle)),
+                       0, 0);
+        m_Renderer.DrawLine(p1, p2, color, 3);
+
+        angle += (360.0 / numLines);
+    }
+
     drawFrameBuffer(dc);
 }
 
@@ -38,14 +54,7 @@ void DrawPanel::OnEraseBackground(wxEraseEvent& event)
 
 void DrawPanel::drawFrameBuffer(wxDC& dc)
 {
-    for (int y = 0; y < m_Renderer.GetHeight(); y++)
-    {
-        for (int x = 0; x < m_Renderer.GetWidth(); x++)
-        {
-            RendererColor rColor = m_Renderer.GetPixel(x, y);
-            wxColor color((int)(255 * rColor.R), (int)(255 * rColor.G), (int)(255 * rColor.B));
-            dc.SetPen(wxPen(color, 1));
-            dc.DrawPoint(x, y);
-        }
-    }
+    wxImage t_Image = wxImage(m_Renderer.GetWidth(), m_Renderer.GetHeight(), m_Renderer.GetFrameBuffer(), true);
+    wxBitmap t_Bitmap = wxBitmap(t_Image);
+    dc.DrawBitmap(t_Bitmap, 0, 0, true);
 }
